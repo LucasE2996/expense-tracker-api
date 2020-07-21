@@ -18,7 +18,8 @@ public class UserServiceImpl  implements UserService {
 
     @Override
     public User validateUser(String email, String password) throws EtAuthException {
-        return null;
+        if (email != null) email = email.toLowerCase();
+        return userRepository.findByEmailAndPassword(email, password);
     }
 
     @Override
@@ -36,6 +37,7 @@ public class UserServiceImpl  implements UserService {
             throw new EtAuthException("Email already in use");
 
         Integer userId = userRepository.create(firstName, lastName, email, password);
+
         return userRepository.findById(userId);
     }
 }
