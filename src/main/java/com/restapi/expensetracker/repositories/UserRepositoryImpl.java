@@ -2,6 +2,7 @@ package com.restapi.expensetracker.repositories;
 
 import com.restapi.expensetracker.domain.User;
 import com.restapi.expensetracker.exceptions.EtAuthException;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,6 +28,7 @@ public class UserRepositoryImpl  implements UserRepository {
 
     @Override
     public Integer create(String firstName, String lastName, String email, String password) throws EtAuthException {
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
@@ -34,7 +36,7 @@ public class UserRepositoryImpl  implements UserRepository {
                 preparedStatement.setString(1, firstName);
                 preparedStatement.setString(2, lastName);
                 preparedStatement.setString(3, email);
-                preparedStatement.setString(4, password);
+                preparedStatement.setString(4, hashedPassword);
                 return preparedStatement;
             }, keyHolder);
 
@@ -51,7 +53,7 @@ public class UserRepositoryImpl  implements UserRepository {
     public User findByEmailAndPassword(String email, String password) throws EtAuthException {
         try {
             User user = jdbcTemplate.queryForObject(SQL_FIND_BY_EMAIL, new Object[]{email}, userRowMapper);
-            if (!password.equals(user.getPassword()))
+            if (!BCrypt.checkpw(password, user.getPassword()))
                 throw new EtAuthException("Invalid email/password");
             return user;
         } catch (EmptyResultDataAccessException e) {
