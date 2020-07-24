@@ -29,6 +29,6 @@ public class AuthFilter extends GenericFilterBean {
             return;
         }
 
-        filterChain.doFilter(servletRequest, servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse); 
     }
 }
