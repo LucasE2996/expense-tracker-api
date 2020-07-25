@@ -5,11 +5,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Category {
+public class Transaction {
 
     private final Integer categoryId;
+    private final Integer transactionId;
     private final Integer userId;
-    private final String title;
-    private final String description;
-    private final Double totalExpense;
+    private final Double amount;
+    private final String note;
+    private final Long transactionDate;
 }

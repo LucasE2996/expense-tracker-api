@@ -75,13 +75,11 @@ public class UserRepositoryImpl  implements UserRepository {
      * Here we are implementing a lambda expression to match the RowMapper Interface for User model,
      * so it is basically a inline interface implementation with lambda expression.
      */
-    private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
-        return new User(
-                rs.getInt("USER_ID"),
-                rs.getString("FIRST_NAME"),
-                rs.getString("LAST_NAME"),
-                rs.getString("EMAIL"),
-                rs.getString("PASSWORD")
-        );
-    });
+    private final RowMapper<User> userRowMapper = ((rs, rowNum) -> new User(
+            rs.getInt("USER_ID"),
+            rs.getString("FIRST_NAME"),
+            rs.getString("LAST_NAME"),
+            rs.getString("EMAIL"),
+            rs.getString("PASSWORD")
+    ));
 }

@@ -40,11 +40,11 @@ public class CategoryController {
     @PostMapping("")
     public ResponseEntity<Category> addCategory(
             HttpServletRequest request,
-            @RequestBody Map<String, Object> categoryMap
+            @RequestBody Map<String, Object> body
     ) {
         final int userId = (Integer) request.getAttribute(Constants.USER_ID);
-        final String title = (String) categoryMap.get("title");
-        final String description = (String) categoryMap.get("description");
+        final String title = (String) body.get("title");
+        final String description = (String) body.get("description");
 
         final Category category = categoryService.addCategory(userId, title, description);
 
