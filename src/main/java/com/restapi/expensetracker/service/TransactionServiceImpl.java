@@ -24,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction fetchTransactionById(Integer userId, Integer categoryId, Integer transactionId) throws EtResourceNotFoundException {
-        return null;
+        return transactionRepository.findById(userId, categoryId, transactionId);
     }
 
     @Override
