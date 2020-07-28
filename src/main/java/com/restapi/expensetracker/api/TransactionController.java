@@ -1,5 +1,6 @@
 package com.restapi.expensetracker.api;
 
+import com.google.common.collect.ImmutableMap;
 import com.restapi.expensetracker.Constants;
 import com.restapi.expensetracker.domain.Transaction;
 import com.restapi.expensetracker.service.TransactionService;
@@ -55,5 +56,17 @@ public class TransactionController {
         final Transaction transaction = transactionService.addTransaction(userId, categoryId, amount, note, transactionDate);
 
         return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{transactionId}")
+    public ResponseEntity<Map<String, Boolean>> updateTransaction(
+            HttpServletRequest request,
+            @PathVariable("categoryId") Integer categoryId,
+            @PathVariable("transactionId") Integer transactionId,
+            @RequestBody Transaction transaction
+    ) {
+        final int userId = (Integer) request.getAttribute("userId");
+        transactionService.updateTransaction(userId, categoryId, transactionId, transaction);
+        return new ResponseEntity<>(ImmutableMap.of("success", true), HttpStatus.OK);
     }
 }

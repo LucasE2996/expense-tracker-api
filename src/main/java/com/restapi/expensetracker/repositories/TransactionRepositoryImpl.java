@@ -70,7 +70,11 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public void update(Integer userId, Integer categoryId, Integer transactionId, Transaction transaction) throws EtBadRequestException {
-
+        try {
+            jdbcTemplate.update(SQL_UPDATE, transaction.getAmount(), transaction.getNote(), transaction.getTransactionDate(), userId, categoryId, transactionId);
+        } catch (Exception e) {
+            throw new EtBadRequestException("Invalid request");
+        }
     }
 
     @Override
