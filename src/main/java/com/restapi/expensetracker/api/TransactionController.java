@@ -69,4 +69,15 @@ public class TransactionController {
         transactionService.updateTransaction(userId, categoryId, transactionId, transaction);
         return new ResponseEntity<>(ImmutableMap.of("success", true), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{transactionId}")
+    public ResponseEntity<Map<String, Boolean>> deleteTransaction(
+            HttpServletRequest request,
+            @PathVariable("categoryId") Integer categoryId,
+            @PathVariable("transactionId") Integer transactionId
+    ) {
+        final int userId = (Integer) request.getAttribute("userId");
+        transactionService.removeTransaction(userId, categoryId, transactionId);
+        return new ResponseEntity<>(ImmutableMap.of("success", true), HttpStatus.OK);
+    }
 }
