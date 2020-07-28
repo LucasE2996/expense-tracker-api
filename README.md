@@ -5,7 +5,7 @@
   </a>
 </p>
 
-> Simple expense controller
+> Simple expense controller API. The main goal of this project was to practice how to create a Java API using concepts like JWT authentication, docker containers to get the setup up and running as quick as possible, CORS policy configuration, add filters to requests and so on. Feel free to fork this project or open a Pull Request if you have any improvements you'd like to share!
 
 ## Install
 
@@ -80,7 +80,270 @@ mvn test
 
 ## Endpoints
 
-> TODO: when the API is finished complete this part
+> For all endpoints you will see the statemtn `{host}`. This value must be replaced by the host your running this API on. If you are running locally just replace for `localhost`.
+
+### User
+
+This project uses JWT as authentication method. The current expiration time is 2 hours, fell free to change that if you want.
+Also, the generated token must be passed as a header attribute of type `Authorization` for any other endpoint that is not `.../user/register` or `.../user/login`. E.g.: `"Authorization": "Bearer <token in string format>"`
+
+> If you are not familiar with JWT concept please refer to this [documentation](https://jwt.io/introduction/).
+
+#### Create a new user:
+
+Method: `GET`
+
+URL: `http://{host}/api/users/register`
+
+Expected response:
+
+```json
+{
+    "token": "<token in string format>"
+}
+```
+
+#### User login:
+
+Method: `GET`
+
+URL: `http://{host}/api/users/login`
+
+Expected response:
+
+```json
+{
+    "token": "<token in string format>"
+}
+```
+
+### Categories
+
+> ⚠️ Must be logged in as a user
+
+#### Get all categories:
+
+Method: `GET`
+
+URL: `http://{host}/api/categories`
+
+Expected response:
+
+```json
+[
+    {
+        "categoryId": 16,
+        "userId": 3,
+        "title": "market",
+        "description": "all market expenses",
+        "totalExpense": 0.0
+    },
+    ...
+]
+```
+
+#### Get category by ID:
+
+Method: `GET`
+
+URL: `http://{host}/api/categories/{categoryId}`
+
+Expected response:
+
+```json
+{
+    "categoryId": 16,
+    "userId": 3,
+    "title": "market",
+    "description": "all market expenses",
+    "totalExpense": 0.0
+}
+```
+
+#### Create a new category:
+
+Method: `POST`
+
+URL: `http://{host}/api/categories`
+
+Body example:
+
+```json
+{
+    "title": "market",
+    "description": "all market expenses"
+}
+```
+
+Expected response:
+
+```json
+{
+    "categoryId": 17,
+    "userId": 3,
+    "title": "market",
+    "description": "all market expenses",
+    "totalExpense": 0.0
+}
+```
+
+#### Update existent category:
+
+Method: `POST`
+
+URL: `http://{host}/api/categories/{categoryId}`
+
+Body example:
+
+```json
+{
+    "title": "update",
+    "description": "updated description"
+}
+```
+
+Expected response:
+
+```json
+{
+    "categoryId": 17,
+    "userId": 3,
+    "title": "update",
+    "description": "updated description",
+    "totalExpense": 0.0
+}
+```
+
+#### Delete a category:
+
+Method: `DELETE`
+
+URL: `http://{host}/categories/{categoryId}`
+
+Expected response:
+
+```json
+{
+  "success": true
+}
+```
+
+### Transactions
+
+> ⚠️ Must be logged in as a user
+
+#### Get all transactions for a given category
+
+Method: `GET`
+
+URL: `http://{host}/api/categories/{categoryId}/transactions`
+
+Expected response:
+
+```json
+[
+    {
+        "categoryId": 1003,
+        "transactionId": 16,
+        "userId": 3,
+        "amount": 50.9,
+        "note": "Walmart",
+        "transactionDate": 1595715803000
+    },
+    ...
+]
+```
+
+#### Get transaction by ID:
+
+Method: `GET`
+
+URL: `http://{host}/api/categories/{categoryId}/transactions/{transactionId}`
+
+Expected response:
+
+```json
+{
+    "categoryId": 1003,
+    "transactionId": 16,
+    "userId": 3,
+    "amount": 50.9,
+    "note": "Walmart",
+    "transactionDate": 1595715803000
+}
+```
+
+#### Create a new transaction:
+
+Method: `POST`
+
+URL: `http://{host}/api/cateogies/{categoryId}/transctions`
+
+Body example:
+
+```json
+{
+    "amount": 50.9,
+    "note": "Walmart",
+    "transactionDate": 1595715803000
+}
+```
+
+Expected response:
+
+```json
+{
+    "categoryId": 1003,
+    "transactionId": 16,
+    "userId": 3,
+    "amount": 50.9,
+    "note": "Walmart",
+    "transactionDate": 1595715803000
+}
+```
+
+#### Update a category:
+
+Method: `POST`
+
+URL: `http://{host}/api/categories/{categoryId}/transactions/{transactionId}`
+
+Body example:
+
+```json
+{
+    "amount": 99.9,
+    "note": "Supermarket",
+    "transactionDate": 1595715803000
+}
+```
+
+Expected response:
+
+```json
+{
+    "categoryId": 1003,
+    "transactionId": 16,
+    "userId": 3,
+    "amount": 99.9,
+    "note": "Supermarket",
+    "transactionDate": 1595715803000
+}
+```
+
+#### Delete a transaction:
+
+Method: `DELETE`
+
+URL: `http://{host}/api/categories/{categoryId}/transactions/{transactionId}`
+
+Expected response:
+
+```json
+{
+  "success": true
+}
+```
 
 ## Author
 
