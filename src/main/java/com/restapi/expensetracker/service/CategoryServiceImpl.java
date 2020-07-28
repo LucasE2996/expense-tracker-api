@@ -40,6 +40,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void removeCategoryWithAllTransactions(Integer userId, Integer categoryId) throws EtBadRequestException {
-
+        // if category is not found it will throw a not found exception
+        this.fetchCategoryById(userId, categoryId);
+        categoryRepository.removeById(userId,categoryId);
     }
 }

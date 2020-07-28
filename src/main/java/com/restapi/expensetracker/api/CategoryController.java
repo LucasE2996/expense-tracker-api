@@ -61,4 +61,14 @@ public class CategoryController {
         categoryService.updateCategory(userId, categoryId, category);
         return new ResponseEntity<>(ImmutableMap.of("success", true), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Map<String, Boolean>> deleteCategory(
+            HttpServletRequest request,
+            @PathVariable("categoryId") Integer categoryId
+    ) {
+        final int userId = (Integer) request.getAttribute("userId");
+        categoryService.removeCategoryWithAllTransactions(userId, categoryId);
+        return new ResponseEntity<>(ImmutableMap.of("success", true), HttpStatus.OK);
+    }
 }
