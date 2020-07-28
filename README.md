@@ -138,7 +138,7 @@ Expected response:
         "description": "all market expenses",
         "totalExpense": 0.0
     },
-    ...
+    "..."
 ]
 ```
 
@@ -250,7 +250,7 @@ Expected response:
         "note": "Walmart",
         "transactionDate": 1595715803000
     },
-    ...
+    "..."
 ]
 ```
 
