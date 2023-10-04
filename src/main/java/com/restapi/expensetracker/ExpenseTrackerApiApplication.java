@@ -19,7 +19,7 @@ public class ExpenseTrackerApiApplication {
 	/**
 	 * Filters all requests that match the chosen pattern with {@link AuthFilter} filter.
 	 * This avoids unauthorized requests to reach sensitive data.
-	 * Also this will put the userId from token to the request object for easy access.
+	 * Also, this will put the userId from token to the request object for easy access.
 	 */
 	@Bean
 	public FilterRegistrationBean<AuthFilter> filterRegistrationBean() {
